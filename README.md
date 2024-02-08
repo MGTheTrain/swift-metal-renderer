@@ -17,9 +17,9 @@ TBD
 
 ## Features
 
-- USD and/or glTF scene loading
-- PBR scene rendering
-- Integrate simple menu (e.g. with buttons, sliders and other widgets)
+[ ] USD and/or glTF scene loading
+[ ] PBR scene rendering
+[ ] Integrate simple menu (e.g. with buttons, sliders and other widgets)
 
 ## Getting started
 
