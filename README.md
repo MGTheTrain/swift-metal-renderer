@@ -9,7 +9,7 @@
 
 ## Summary
 
-Repository implementing Swift code and shader pipelines with Metal API for iOS and MacOS devices
+iOS and MacOS based Swift Metal API renderer
 
 ## References
 
