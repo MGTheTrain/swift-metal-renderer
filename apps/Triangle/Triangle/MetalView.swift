@@ -61,6 +61,10 @@ class MetalView: UIView {
         buildPipeline()
     }
     
+    /*
+     @method didMoveToSuperview
+     @abstract Notifies the view that it was added to a superview.
+     */
     override func didMoveToSuperview() {
         super.didMoveToSuperview()
         if let superview = superview {
