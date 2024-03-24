@@ -21,6 +21,7 @@
 		785FE42D2BB08C2600CA409B /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 785FE42C2BB08C2600CA409B /* UIKit.framework */; };
 		785FE42F2BB08C3300CA409B /* Shaders.metal in Sources */ = {isa = PBXBuildFile; fileRef = 785FE42E2BB08C3300CA409B /* Shaders.metal */; };
 		785FE4312BB08C5300CA409B /* MetalView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 785FE4302BB08C5300CA409B /* MetalView.swift */; };
+		785FE4332BB0A17700CA409B /* MathUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 785FE4322BB0A17700CA409B /* MathUtils.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -59,6 +60,7 @@
 		785FE42C2BB08C2600CA409B /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		785FE42E2BB08C3300CA409B /* Shaders.metal */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.metal; path = Shaders.metal; sourceTree = "<group>"; };
 		785FE4302BB08C5300CA409B /* MetalView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MetalView.swift; sourceTree = "<group>"; };
+		785FE4322BB0A17700CA409B /* MathUtils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MathUtils.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -122,6 +124,7 @@
 				785FE4052BB08B9000CA409B /* Info.plist */,
 				785FE42E2BB08C3300CA409B /* Shaders.metal */,
 				785FE4302BB08C5300CA409B /* MetalView.swift */,
+				785FE4322BB0A17700CA409B /* MathUtils.swift */,
 			);
 			path = RotatingTexturedCube;
 			sourceTree = "<group>";
@@ -286,6 +289,7 @@
 			files = (
 				785FE42F2BB08C3300CA409B /* Shaders.metal in Sources */,
 				785FE3FC2BB08B8E00CA409B /* ViewController.swift in Sources */,
+				785FE4332BB0A17700CA409B /* MathUtils.swift in Sources */,
 				785FE4312BB08C5300CA409B /* MetalView.swift in Sources */,
 				785FE3F82BB08B8E00CA409B /* AppDelegate.swift in Sources */,
 				785FE3FA2BB08B8E00CA409B /* SceneDelegate.swift in Sources */,
