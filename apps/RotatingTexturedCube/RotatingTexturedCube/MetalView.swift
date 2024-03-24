@@ -156,7 +156,7 @@ class MetalView: UIView {
         self.mvpBuffer = device.makeBuffer(bytes: [mvpMatrix], length: mvpBufferSize, options: [])
     }
     
-    func loadTexture(imageName: String) -> MTLTexture? {
+    private func loadTexture(imageName: String) -> MTLTexture? {
         guard let image = UIImage(named: imageName) else {
             return nil
         }
@@ -186,7 +186,7 @@ class MetalView: UIView {
         samplerState = device.makeSamplerState(descriptor: samplerDescriptor)
     }
     
-    func makeDepthTexture() {
+    private func makeDepthTexture() {
         let drawableSize = metalLayer.drawableSize
 
         guard depthTexture == nil else {
@@ -218,13 +218,6 @@ class MetalView: UIView {
         renderPass.colorAttachments[0].clearColor = MTLClearColorMake(0.0, 0.0, 0.0, 1)
         renderPass.colorAttachments[0].storeAction = .store
         renderPass.colorAttachments[0].loadAction = .clear
-        
-        let depthTextureDescriptor = MTLTextureDescriptor.texture2DDescriptor(pixelFormat: .depth32Float_stencil8,
-                                                                              width: Int(drawable.texture.width),
-                                                                              height: Int(drawable.texture.height),
-                                                                              mipmapped: false)
-        depthTextureDescriptor.storageMode = .private
-        depthTextureDescriptor.usage = [.renderTarget]
         self.makeDepthTexture()
         renderPass.depthAttachment.texture = depthTexture
         renderPass.depthAttachment.clearDepth = 1.0
