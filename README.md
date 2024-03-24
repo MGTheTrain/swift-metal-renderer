@@ -18,10 +18,14 @@ TBD
 ## Features
 
 - [ ] Compilation on iOS
-- [ ] USD and/or glTF scene loading
-- [ ] PBR shader pipeline
+- [ ] Support for USD and/or glTF scene loading
+- [ ] PBR shader pipeline considering primarily the metal roughness workflow
 - [ ] Integrated simple menu (e.g. with buttons, sliders and other widgets)
+- [ ] High code coverage
+- [ ] CI workflows ensuring continuous testing of the modules 
+- [ ] Integrated simple menu (e.g. with sliders and other widgets)
 - [ ] Skeletal animation support (**OPTIONAL**)
+- [ ] Native file dialog support for loading new glTF or USD scenes
 
 ## Getting started
 
