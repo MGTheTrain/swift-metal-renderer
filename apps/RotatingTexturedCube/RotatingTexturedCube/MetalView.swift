@@ -18,6 +18,7 @@ struct Vertex {
     var position: (Float, Float, Float, Float)
 }
 
+// @ref https://github.com/metal-by-example/sample-code/blob/master/objc/04-DrawingIn3D/DrawingIn3D/MBERenderer.m
 class MetalView: UIView {
     private var displayLink: CADisplayLink?
     private var metalLayer: CAMetalLayer!
