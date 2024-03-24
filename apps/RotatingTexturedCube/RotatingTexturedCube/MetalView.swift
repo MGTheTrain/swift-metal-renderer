@@ -33,6 +33,7 @@ class MetalView: UIView {
     private let mathUtils: MathUtils!
     private var texture: MTLTexture!
     private var samplerState: MTLSamplerState!
+    private var depthTexture: MTLTexture!
     
     private let vertices: [Vertex] = [
         Vertex(position: SIMD4<Float>(-1, 1, 1, 1), textureCoordinate: SIMD2<Float>(0.0, 1.0)),
@@ -106,6 +107,8 @@ class MetalView: UIView {
         
         let pipelineDescriptor = MTLRenderPipelineDescriptor()
         pipelineDescriptor.colorAttachments[0].pixelFormat = .bgra8Unorm
+        pipelineDescriptor.depthAttachmentPixelFormat = .depth32Float
+        
         pipelineDescriptor.vertexFunction = vertexFunc
         pipelineDescriptor.fragmentFunction = fragmentFunc
         
@@ -122,8 +125,6 @@ class MetalView: UIView {
         vertexDescriptor.layouts[0].stride = MemoryLayout<Vertex>.stride
 
         pipelineDescriptor.vertexDescriptor = vertexDescriptor
-        
-//        pipelineDescriptor.depthAttachmentPixelFormat = .depth32Float
         
         do {
             pipeline = try device.makeRenderPipelineState(descriptor: pipelineDescriptor)
@@ -151,7 +152,6 @@ class MetalView: UIView {
         let modelMatrix = mathUtils.matrix_float4x4_rotation(angle: rotationAngle, axis: SIMD3<Float>(0.5, 1.0, 0.0))
         let mvpMatrix = projectionMatrix * viewMatrix * modelMatrix
         
-        var mvpData = MVP(modelViewProjectionMatrix: mvpMatrix)
         let mvpBufferSize = MemoryLayout<MVP>.size
         self.mvpBuffer = device.makeBuffer(bytes: [mvpMatrix], length: mvpBufferSize, options: [])
     }
@@ -185,6 +185,26 @@ class MetalView: UIView {
 
         samplerState = device.makeSamplerState(descriptor: samplerDescriptor)
     }
+    
+    func makeDepthTexture() {
+        let drawableSize = metalLayer.drawableSize
+
+        guard depthTexture == nil else {
+            return
+        }
+
+        let depthTextureDescriptor = MTLTextureDescriptor.texture2DDescriptor(pixelFormat: .depth32Float,
+                                                                               width: Int(drawableSize.width),
+                                                                               height: Int(drawableSize.height),
+                                                                               mipmapped: false)
+
+        depthTextureDescriptor.usage = [.renderTarget]
+        depthTextureDescriptor.storageMode = .private
+
+        self.depthTexture = device.makeTexture(descriptor: depthTextureDescriptor)
+    }
+
+
 
     private func redraw() {
         guard let drawable = metalLayer.nextDrawable() else {
@@ -199,23 +219,29 @@ class MetalView: UIView {
         renderPass.colorAttachments[0].storeAction = .store
         renderPass.colorAttachments[0].loadAction = .clear
         
-//        let depthTextureDescriptor = MTLTextureDescriptor.texture2DDescriptor(pixelFormat: .depth32Float,
-//                                                                              width: Int(drawable.texture.width),
-//                                                                              height: Int(drawable.texture.height),
-//                                                                              mipmapped: false)
-//        depthTextureDescriptor.usage = [.renderTarget]
-//        depthTextureDescriptor.storageMode = .private
-//
-//        let depthTexture = device.makeTexture(descriptor: depthTextureDescriptor)!
-//        renderPass.depthAttachment.texture = depthTexture
-//        renderPass.depthAttachment.loadAction = .clear
-//        renderPass.depthAttachment.storeAction = .dontCare
-//        renderPass.depthAttachment.clearDepth = 1.0
+        let depthTextureDescriptor = MTLTextureDescriptor.texture2DDescriptor(pixelFormat: .depth32Float_stencil8,
+                                                                              width: Int(drawable.texture.width),
+                                                                              height: Int(drawable.texture.height),
+                                                                              mipmapped: false)
+        depthTextureDescriptor.storageMode = .private
+        depthTextureDescriptor.usage = [.renderTarget]
+        self.makeDepthTexture()
+        renderPass.depthAttachment.texture = depthTexture
+        renderPass.depthAttachment.clearDepth = 1.0
+        renderPass.depthAttachment.loadAction = .clear
+        renderPass.depthAttachment.storeAction = .dontCare
         
         guard let commandBuffer = commandQueue.makeCommandBuffer(),
               let commandEncoder = commandBuffer.makeRenderCommandEncoder(descriptor: renderPass) else {
             return
         }
+        
+        // Enable depth testing
+        let depthStateDesc = MTLDepthStencilDescriptor()
+        depthStateDesc.depthCompareFunction = .less
+        depthStateDesc.isDepthWriteEnabled = true
+        let depthState = device.makeDepthStencilState(descriptor: depthStateDesc)
+        commandEncoder.setDepthStencilState(depthState)
         
         commandEncoder.setRenderPipelineState(pipeline)
         commandEncoder.setVertexBuffer(vertexBuffer, offset: 0, index: 0)
