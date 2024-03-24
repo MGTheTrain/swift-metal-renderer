@@ -9,6 +9,10 @@ import UIKit
 import Metal
 import MetalKit
 
+/*
+ @class MetalView
+ @abstract A UIView subclass for rendering with Metal.
+ */
 class MetalView: UIView {
     private var displayLink: CADisplayLink?
     private var metalLayer: CAMetalLayer!
@@ -17,20 +21,40 @@ class MetalView: UIView {
     private var commandQueue: MTLCommandQueue!
     private var positionBuffer: MTLBuffer!
     
+    /*
+     @method layerClass
+     @abstract Specifies the Core Animation layer class for MetalView.
+     @return The CAMetalLayer class.
+     */
     override class var layerClass: AnyClass {
         return CAMetalLayer.self
     }
     
+    /*@method init(frame:)
+    @abstract Initializes the Metal view with the specified frame rectangle.
+    @param frame The frame rectangle for the view, measured in points.
+    @return An initialized Metal view object.
+    */
     override init(frame: CGRect) {
         super.init(frame: frame)
         commonInit()
     }
     
+    /*
+     @method init(coder:)
+     @abstract Initializes the Metal view from data in a given unarchiver.
+     @param aDecoder An unarchiver object.
+     @return An initialized Metal view object, or nil if the object could not be unarchived.
+     */
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
         commonInit()
     }
     
+    /*
+     @method commonInit
+     @abstract Initializes Metal-related components.
+    */
     private func commonInit() {
         buildDevice()
         buildVertexBuffers()
@@ -48,6 +72,10 @@ class MetalView: UIView {
         }
     }
     
+    /*
+     @method buildDevice
+     @abstract Sets up Metal device.
+    */
     private func buildDevice() {
         device = MTLCreateSystemDefaultDevice()
         metalLayer = layer as? CAMetalLayer
@@ -56,6 +84,10 @@ class MetalView: UIView {
         metalLayer.contentsScale = UIScreen.main.scale
     }
     
+    /*
+     @method buildPipeline
+     @abstract Builds the rendering pipeline.
+    */
     private func buildPipeline() {
         guard let library = device.makeDefaultLibrary(),
               let vertexFunc = library.makeFunction(name: "vertex_main"),
@@ -77,6 +109,10 @@ class MetalView: UIView {
         commandQueue = device.makeCommandQueue()
     }
     
+    /*
+     @method buildVertexBuffers
+     @abstract Builds vertex buffers.
+    */
     private func buildVertexBuffers() {
         let positions: [Float] = [
             0.0,  0.5, 0, 1,
@@ -87,10 +123,19 @@ class MetalView: UIView {
         positionBuffer = device.makeBuffer(bytes: positions, length: MemoryLayout<Float>.size * positions.count, options: [])
     }
     
+    /*
+     @method displayLinkDidFire:
+     @abstract Responds to the display link firing.
+     @param displayLink The CADisplayLink object associated with the event.
+    */
     @objc private func displayLinkDidFire(_ displayLink: CADisplayLink) {
         redraw()
     }
     
+    /*
+     @method redraw
+     @abstract Redraws the Metal content.
+    */
     private func redraw() {
         guard let drawable = metalLayer.nextDrawable() as? CAMetalDrawable else {
             return
