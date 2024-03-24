@@ -4,16 +4,12 @@
 
 + [Summary](#summary)
 + [Features](#features)
-+ [References](#references)
 + [Getting started](#getting-started)
 
 ## Summary
 
 iOS based Swift Metal API renderer
 
-## References
-
-TBD
 
 ## Features
 
