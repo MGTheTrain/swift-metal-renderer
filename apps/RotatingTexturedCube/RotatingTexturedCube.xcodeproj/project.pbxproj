@@ -22,6 +22,7 @@
 		785FE42F2BB08C3300CA409B /* Shaders.metal in Sources */ = {isa = PBXBuildFile; fileRef = 785FE42E2BB08C3300CA409B /* Shaders.metal */; };
 		785FE4312BB08C5300CA409B /* MetalView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 785FE4302BB08C5300CA409B /* MetalView.swift */; };
 		785FE4332BB0A17700CA409B /* MathUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 785FE4322BB0A17700CA409B /* MathUtils.swift */; };
+		785FE4352BB0A5DD00CA409B /* surgery.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 785FE4342BB0A5DD00CA409B /* surgery.jpg */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -61,6 +62,7 @@
 		785FE42E2BB08C3300CA409B /* Shaders.metal */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.metal; path = Shaders.metal; sourceTree = "<group>"; };
 		785FE4302BB08C5300CA409B /* MetalView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MetalView.swift; sourceTree = "<group>"; };
 		785FE4322BB0A17700CA409B /* MathUtils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MathUtils.swift; sourceTree = "<group>"; };
+		785FE4342BB0A5DD00CA409B /* surgery.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; name = surgery.jpg; path = "../../../../../c++-repos/cpp-opengl-renderer/assets/texture/surgery.jpg"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -120,6 +122,7 @@
 				785FE3FB2BB08B8E00CA409B /* ViewController.swift */,
 				785FE3FD2BB08B8E00CA409B /* Main.storyboard */,
 				785FE4002BB08B9000CA409B /* Assets.xcassets */,
+				785FE4342BB0A5DD00CA409B /* surgery.jpg */,
 				785FE4022BB08B9000CA409B /* LaunchScreen.storyboard */,
 				785FE4052BB08B9000CA409B /* Info.plist */,
 				785FE42E2BB08C3300CA409B /* Shaders.metal */,
@@ -263,6 +266,7 @@
 				785FE4042BB08B9000CA409B /* LaunchScreen.storyboard in Resources */,
 				785FE4012BB08B9000CA409B /* Assets.xcassets in Resources */,
 				785FE3FF2BB08B8E00CA409B /* Main.storyboard in Resources */,
+				785FE4352BB0A5DD00CA409B /* surgery.jpg in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

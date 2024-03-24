@@ -15,7 +15,8 @@ struct MVP {
 }
 
 struct Vertex {
-    var position: (Float, Float, Float, Float)
+    var position: SIMD4<Float>
+    var textureCoordinate: SIMD2<Float>
 }
 
 // @ref https://github.com/metal-by-example/sample-code/blob/master/objc/04-DrawingIn3D/DrawingIn3D/MBERenderer.m
@@ -29,17 +30,19 @@ class MetalView: UIView {
     private var indexBuffer: MTLBuffer!
     private var mvpBuffer: MTLBuffer!
     private var rotationAngle: Float = 0
-    private let mathUtils: MathUtils
+    private let mathUtils: MathUtils!
+    private var texture: MTLTexture!
+    private var samplerState: MTLSamplerState!
     
     private let vertices: [Vertex] = [
-        Vertex(position: (-1, 1, 1, 1)),
-        Vertex(position: (-1, -1, 1, 1)),
-        Vertex(position: (1, -1, 1, 1)),
-        Vertex(position: (1, 1, 1, 1)),
-        Vertex(position: (-1, 1, -1, 1)),
-        Vertex(position: (-1, -1, -1, 1)),
-        Vertex(position: (1, -1, -1, 1)),
-        Vertex(position: (1, 1, -1, 1)),
+        Vertex(position: SIMD4<Float>(-1, 1, 1, 1), textureCoordinate: SIMD2<Float>(0.0, 1.0)),
+        Vertex(position: SIMD4<Float>(-1, -1, 1, 1), textureCoordinate: SIMD2<Float>(0.0, 0.0)),
+        Vertex(position: SIMD4<Float>(1, -1, 1, 1), textureCoordinate: SIMD2<Float>(1.0, 0.0)),
+        Vertex(position: SIMD4<Float>(1, 1, 1, 1), textureCoordinate: SIMD2<Float>(1.0, 1.0)),
+        Vertex(position: SIMD4<Float>(-1, 1, -1, 1), textureCoordinate: SIMD2<Float>(1.0, 1.0)),
+        Vertex(position: SIMD4<Float>(-1, -1, -1, 1), textureCoordinate: SIMD2<Float>(1.0, 0.0)),
+        Vertex(position: SIMD4<Float>(1, -1, -1, 1), textureCoordinate: SIMD2<Float>(0.0, 0.0)),
+        Vertex(position: SIMD4<Float>(1, 1, -1, 1), textureCoordinate: SIMD2<Float>(0.0, 1.0)),
     ]
     
     private let indices: [UInt16] = [
@@ -71,6 +74,8 @@ class MetalView: UIView {
         buildDevice()
         buildVertexBuffer()
         buildPipeline()
+        self.texture = self.loadTexture(imageName: "surgery.jpg")
+        buildSamplerState()
     }
     
     override func didMoveToSuperview() {
@@ -104,6 +109,22 @@ class MetalView: UIView {
         pipelineDescriptor.vertexFunction = vertexFunc
         pipelineDescriptor.fragmentFunction = fragmentFunc
         
+        let vertexDescriptor = MTLVertexDescriptor()
+        vertexDescriptor.attributes[0].format = .float4
+        vertexDescriptor.attributes[0].offset = 0
+        vertexDescriptor.attributes[0].bufferIndex = 0
+
+        vertexDescriptor.attributes[1].format = .float2
+        vertexDescriptor.attributes[1].offset = MemoryLayout<SIMD4<Float>>.stride
+        vertexDescriptor.attributes[1].bufferIndex = 0
+        vertexDescriptor.attributes[1].bufferIndex = 0
+
+        vertexDescriptor.layouts[0].stride = MemoryLayout<Vertex>.stride
+
+        pipelineDescriptor.vertexDescriptor = vertexDescriptor
+        
+//        pipelineDescriptor.depthAttachmentPixelFormat = .depth32Float
+        
         do {
             pipeline = try device.makeRenderPipelineState(descriptor: pipelineDescriptor)
         } catch {
@@ -135,6 +156,36 @@ class MetalView: UIView {
         self.mvpBuffer = device.makeBuffer(bytes: [mvpMatrix], length: mvpBufferSize, options: [])
     }
     
+    func loadTexture(imageName: String) -> MTLTexture? {
+        guard let image = UIImage(named: imageName) else {
+            return nil
+        }
+
+        guard let cgImage = image.cgImage else {
+            return nil
+        }
+
+        let textureLoader = MTKTextureLoader(device: device)
+        do {
+            let texture = try textureLoader.newTexture(cgImage: cgImage, options: nil)
+            return texture
+        } catch {
+            print("Error loading texture: \(error)")
+            return nil
+        }
+    }
+    
+    private func buildSamplerState() {
+        let samplerDescriptor = MTLSamplerDescriptor()
+        samplerDescriptor.minFilter = .linear
+        samplerDescriptor.magFilter = .linear
+        samplerDescriptor.mipFilter = .linear
+        samplerDescriptor.sAddressMode = .repeat
+        samplerDescriptor.tAddressMode = .repeat
+
+        samplerState = device.makeSamplerState(descriptor: samplerDescriptor)
+    }
+
     private func redraw() {
         guard let drawable = metalLayer.nextDrawable() else {
             return
@@ -148,6 +199,19 @@ class MetalView: UIView {
         renderPass.colorAttachments[0].storeAction = .store
         renderPass.colorAttachments[0].loadAction = .clear
         
+//        let depthTextureDescriptor = MTLTextureDescriptor.texture2DDescriptor(pixelFormat: .depth32Float,
+//                                                                              width: Int(drawable.texture.width),
+//                                                                              height: Int(drawable.texture.height),
+//                                                                              mipmapped: false)
+//        depthTextureDescriptor.usage = [.renderTarget]
+//        depthTextureDescriptor.storageMode = .private
+//
+//        let depthTexture = device.makeTexture(descriptor: depthTextureDescriptor)!
+//        renderPass.depthAttachment.texture = depthTexture
+//        renderPass.depthAttachment.loadAction = .clear
+//        renderPass.depthAttachment.storeAction = .dontCare
+//        renderPass.depthAttachment.clearDepth = 1.0
+        
         guard let commandBuffer = commandQueue.makeCommandBuffer(),
               let commandEncoder = commandBuffer.makeRenderCommandEncoder(descriptor: renderPass) else {
             return
@@ -156,6 +220,8 @@ class MetalView: UIView {
         commandEncoder.setRenderPipelineState(pipeline)
         commandEncoder.setVertexBuffer(vertexBuffer, offset: 0, index: 0)
         commandEncoder.setVertexBuffer(mvpBuffer, offset: 0, index: 1)
+        commandEncoder.setFragmentTexture(texture, index: 0)
+        commandEncoder.setFragmentSamplerState(samplerState, index: 0)
         commandEncoder.drawIndexedPrimitives(type: .triangle, indexCount: indices.count, indexType: .uint16, indexBuffer: indexBuffer, indexBufferOffset: 0)
         commandEncoder.endEncoding()
         
