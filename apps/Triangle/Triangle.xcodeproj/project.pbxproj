@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		7817DCDF2BB046AC0036AC95 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7817DCDE2BB046AC0036AC95 /* QuartzCore.framework */; };
+		7817DCE12BB046B70036AC95 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7817DCE02BB046B70036AC95 /* UIKit.framework */; };
 		78A384FA2BB0383A00E38C85 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78A384F92BB0383A00E38C85 /* AppDelegate.swift */; };
 		78A384FC2BB0383A00E38C85 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78A384FB2BB0383A00E38C85 /* SceneDelegate.swift */; };
 		78A384FE2BB0383A00E38C85 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78A384FD2BB0383A00E38C85 /* ViewController.swift */; };
@@ -16,9 +18,8 @@
 		78A385112BB0383C00E38C85 /* TriangleTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78A385102BB0383C00E38C85 /* TriangleTests.swift */; };
 		78A3851B2BB0383C00E38C85 /* TriangleUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78A3851A2BB0383C00E38C85 /* TriangleUITests.swift */; };
 		78A3851D2BB0383C00E38C85 /* TriangleUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78A3851C2BB0383C00E38C85 /* TriangleUITestsLaunchTests.swift */; };
-		78A3852A2BB0390E00E38C85 /* MetalRenderer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78A385292BB0390E00E38C85 /* MetalRenderer.swift */; };
+		78A3852A2BB0390E00E38C85 /* MetalView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78A385292BB0390E00E38C85 /* MetalView.swift */; };
 		78A3852F2BB0399600E38C85 /* Shaders.metal in Sources */ = {isa = PBXBuildFile; fileRef = 78A3852E2BB0399600E38C85 /* Shaders.metal */; };
-		78A385352BB03C8200E38C85 /* MetalKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 78A3852C2BB0392800E38C85 /* MetalKit.framework */; };
 		78A385362BB03C8800E38C85 /* Metal.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 78A385322BB03BEC00E38C85 /* Metal.framework */; };
 /* End PBXBuildFile section */
 
@@ -40,6 +41,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		7817DCDE2BB046AC0036AC95 /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
+		7817DCE02BB046B70036AC95 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		78A384F62BB0383A00E38C85 /* Triangle.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Triangle.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		78A384F92BB0383A00E38C85 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		78A384FB2BB0383A00E38C85 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -53,7 +56,7 @@
 		78A385162BB0383C00E38C85 /* TriangleUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = TriangleUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		78A3851A2BB0383C00E38C85 /* TriangleUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TriangleUITests.swift; sourceTree = "<group>"; };
 		78A3851C2BB0383C00E38C85 /* TriangleUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TriangleUITestsLaunchTests.swift; sourceTree = "<group>"; };
-		78A385292BB0390E00E38C85 /* MetalRenderer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MetalRenderer.swift; sourceTree = "<group>"; };
+		78A385292BB0390E00E38C85 /* MetalView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MetalView.swift; sourceTree = "<group>"; };
 		78A3852C2BB0392800E38C85 /* MetalKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MetalKit.framework; path = System/Library/Frameworks/MetalKit.framework; sourceTree = SDKROOT; };
 		78A3852E2BB0399600E38C85 /* Shaders.metal */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.metal; path = Shaders.metal; sourceTree = "<group>"; };
 		78A385322BB03BEC00E38C85 /* Metal.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Metal.framework; path = System/Library/Frameworks/Metal.framework; sourceTree = SDKROOT; };
@@ -78,8 +81,9 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				7817DCE12BB046B70036AC95 /* UIKit.framework in Frameworks */,
+				7817DCDF2BB046AC0036AC95 /* QuartzCore.framework in Frameworks */,
 				78A385362BB03C8800E38C85 /* Metal.framework in Frameworks */,
-				78A385352BB03C8200E38C85 /* MetalKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -117,7 +121,7 @@
 				78A385022BB0383C00E38C85 /* Assets.xcassets */,
 				78A385042BB0383C00E38C85 /* LaunchScreen.storyboard */,
 				78A385072BB0383C00E38C85 /* Info.plist */,
-				78A385292BB0390E00E38C85 /* MetalRenderer.swift */,
+				78A385292BB0390E00E38C85 /* MetalView.swift */,
 				78A3852E2BB0399600E38C85 /* Shaders.metal */,
 			);
 			path = Triangle;
@@ -143,6 +147,8 @@
 		78A3852B2BB0392800E38C85 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				7817DCE02BB046B70036AC95 /* UIKit.framework */,
+				7817DCDE2BB046AC0036AC95 /* QuartzCore.framework */,
 				78A385322BB03BEC00E38C85 /* Metal.framework */,
 				78A3852C2BB0392800E38C85 /* MetalKit.framework */,
 			);
@@ -281,7 +287,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				78A3852F2BB0399600E38C85 /* Shaders.metal in Sources */,
-				78A3852A2BB0390E00E38C85 /* MetalRenderer.swift in Sources */,
+				78A3852A2BB0390E00E38C85 /* MetalView.swift in Sources */,
 				78A384FE2BB0383A00E38C85 /* ViewController.swift in Sources */,
 				78A384FA2BB0383A00E38C85 /* AppDelegate.swift in Sources */,
 				78A384FC2BB0383A00E38C85 /* SceneDelegate.swift in Sources */,
@@ -468,6 +474,7 @@
 				INFOPLIST_KEY_UIMainStoryboardFile = Main;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				IPHONEOS_DEPLOYMENT_TARGET = 16.4;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -495,6 +502,7 @@
 				INFOPLIST_KEY_UIMainStoryboardFile = Main;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				IPHONEOS_DEPLOYMENT_TARGET = 16.4;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
