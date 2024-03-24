@@ -29,7 +29,7 @@ class MetalView: UIView {
     private var indexBuffer: MTLBuffer!
     private var mvpBuffer: MTLBuffer!
     private var rotationAngle: Float = 0
-    private var mathUtils: MathUtils
+    private let mathUtils: MathUtils
     
     private let vertices: [Vertex] = [
         Vertex(position: (-1, 1, 1, 1)),
