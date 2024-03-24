@@ -9,7 +9,7 @@
 
 ## Summary
 
-iOS and MacOS based Swift Metal API renderer
+iOS based Swift Metal API renderer
 
 ## References
 
@@ -17,7 +17,7 @@ TBD
 
 ## Features
 
-- [ ] Compilation on MacOS and iOS
+- [ ] Compilation on iOS
 - [ ] USD and/or glTF scene loading
 - [ ] PBR shader pipeline
 - [ ] Integrated simple menu (e.g. with buttons, sliders and other widgets)
