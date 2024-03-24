@@ -16,6 +16,10 @@
 		78A385112BB0383C00E38C85 /* TriangleTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78A385102BB0383C00E38C85 /* TriangleTests.swift */; };
 		78A3851B2BB0383C00E38C85 /* TriangleUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78A3851A2BB0383C00E38C85 /* TriangleUITests.swift */; };
 		78A3851D2BB0383C00E38C85 /* TriangleUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78A3851C2BB0383C00E38C85 /* TriangleUITestsLaunchTests.swift */; };
+		78A3852A2BB0390E00E38C85 /* MetalRenderer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78A385292BB0390E00E38C85 /* MetalRenderer.swift */; };
+		78A3852F2BB0399600E38C85 /* Shaders.metal in Sources */ = {isa = PBXBuildFile; fileRef = 78A3852E2BB0399600E38C85 /* Shaders.metal */; };
+		78A385352BB03C8200E38C85 /* MetalKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 78A3852C2BB0392800E38C85 /* MetalKit.framework */; };
+		78A385362BB03C8800E38C85 /* Metal.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 78A385322BB03BEC00E38C85 /* Metal.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -49,16 +53,13 @@
 		78A385162BB0383C00E38C85 /* TriangleUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = TriangleUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		78A3851A2BB0383C00E38C85 /* TriangleUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TriangleUITests.swift; sourceTree = "<group>"; };
 		78A3851C2BB0383C00E38C85 /* TriangleUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TriangleUITestsLaunchTests.swift; sourceTree = "<group>"; };
+		78A385292BB0390E00E38C85 /* MetalRenderer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MetalRenderer.swift; sourceTree = "<group>"; };
+		78A3852C2BB0392800E38C85 /* MetalKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MetalKit.framework; path = System/Library/Frameworks/MetalKit.framework; sourceTree = SDKROOT; };
+		78A3852E2BB0399600E38C85 /* Shaders.metal */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.metal; path = Shaders.metal; sourceTree = "<group>"; };
+		78A385322BB03BEC00E38C85 /* Metal.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Metal.framework; path = System/Library/Frameworks/Metal.framework; sourceTree = SDKROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
-		78A384F32BB0383A00E38C85 /* Frameworks */ = {
-			isa = PBXFrameworksBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 		78A385092BB0383C00E38C85 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -73,6 +74,15 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		78A385342BB03C1800E38C85 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				78A385362BB03C8800E38C85 /* Metal.framework in Frameworks */,
+				78A385352BB03C8200E38C85 /* MetalKit.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
@@ -83,6 +93,7 @@
 				78A3850F2BB0383C00E38C85 /* TriangleTests */,
 				78A385192BB0383C00E38C85 /* TriangleUITests */,
 				78A384F72BB0383A00E38C85 /* Products */,
+				78A3852B2BB0392800E38C85 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -106,6 +117,8 @@
 				78A385022BB0383C00E38C85 /* Assets.xcassets */,
 				78A385042BB0383C00E38C85 /* LaunchScreen.storyboard */,
 				78A385072BB0383C00E38C85 /* Info.plist */,
+				78A385292BB0390E00E38C85 /* MetalRenderer.swift */,
+				78A3852E2BB0399600E38C85 /* Shaders.metal */,
 			);
 			path = Triangle;
 			sourceTree = "<group>";
@@ -127,6 +140,15 @@
 			path = TriangleUITests;
 			sourceTree = "<group>";
 		};
+		78A3852B2BB0392800E38C85 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				78A385322BB03BEC00E38C85 /* Metal.framework */,
+				78A3852C2BB0392800E38C85 /* MetalKit.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -135,8 +157,8 @@
 			buildConfigurationList = 78A385202BB0383C00E38C85 /* Build configuration list for PBXNativeTarget "Triangle" */;
 			buildPhases = (
 				78A384F22BB0383A00E38C85 /* Sources */,
-				78A384F32BB0383A00E38C85 /* Frameworks */,
 				78A384F42BB0383A00E38C85 /* Resources */,
+				78A385342BB03C1800E38C85 /* Frameworks */,
 			);
 			buildRules = (
 			);
@@ -258,6 +280,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				78A3852F2BB0399600E38C85 /* Shaders.metal in Sources */,
+				78A3852A2BB0390E00E38C85 /* MetalRenderer.swift in Sources */,
 				78A384FE2BB0383A00E38C85 /* ViewController.swift in Sources */,
 				78A384FA2BB0383A00E38C85 /* AppDelegate.swift in Sources */,
 				78A384FC2BB0383A00E38C85 /* SceneDelegate.swift in Sources */,

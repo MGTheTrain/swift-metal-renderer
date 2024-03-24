@@ -6,14 +6,21 @@
 //
 
 import UIKit
+import MetalKit
 
 class ViewController: UIViewController {
-
+    var metalView: MTKView!
+    var metalRenderer: MetalRenderer!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-        // Do any additional setup after loading the view.
+        
+        metalView = MTKView(frame: view.bounds)
+        metalView.device = MTLCreateSystemDefaultDevice()
+        view.addSubview(metalView)
+        
+        guard let metalView = metalView else { return }
+        metalRenderer = MetalRenderer(metalView: metalView)
+        metalView.delegate = metalRenderer
     }
-
-
 }
-
