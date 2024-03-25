@@ -56,9 +56,9 @@ class MetalView: UIView {
      @abstract Initializes Metal-related components.
     */
     private func commonInit() {
-        self.buildDevice()
-        self.buildVertexBuffers()
-        self.buildPipeline()
+        self.setupDevice()
+        self.setupVertexBuffers()
+        self.setupPipeline()
     }
     
     /*
@@ -77,10 +77,10 @@ class MetalView: UIView {
     }
     
     /*
-     @method buildDevice
+     @method setupDevice
      @abstract Sets up Metal device.
     */
-    private func buildDevice() {
+    private func setupDevice() {
         self.device = MTLCreateSystemDefaultDevice()
         self.metalLayer = layer as? CAMetalLayer
         self.metalLayer.device = self.device
@@ -89,10 +89,10 @@ class MetalView: UIView {
     }
     
     /*
-     @method buildPipeline
-     @abstract Builds the rendering pipeline.
+     @method setupPipeline
+     @abstract Setup the rendering pipeline.
     */
-    private func buildPipeline() {
+    private func setupPipeline() {
         guard let library = device.makeDefaultLibrary(),
               let vertexFunc = library.makeFunction(name: "vertex_main"),
               let fragmentFunc = library.makeFunction(name: "fragment_main") else {
@@ -114,10 +114,10 @@ class MetalView: UIView {
     }
     
     /*
-     @method buildVertexBuffers
-     @abstract Builds vertex buffers.
+     @method setupVertexBuffers
+     @abstract Setup vertex buffers.
     */
-    private func buildVertexBuffers() {
+    private func setupVertexBuffers() {
         let positions: [Float] = [
             0.0,  0.5, 0, 1,
             -0.5, -0.5, 0, 1,

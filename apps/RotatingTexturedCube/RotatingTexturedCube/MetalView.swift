@@ -55,30 +55,54 @@ class MetalView: UIView {
         7, 6, 5, 5, 4, 7
     ]
     
+    /*
+     @method layerClass
+     @abstract Specifies the Core Animation layer class for MetalView.
+     @return The CAMetalLayer class.
+     */
     override class var layerClass: AnyClass {
         return CAMetalLayer.self
     }
     
+    /*@method init(frame:)
+    @abstract Initializes the Metal view with the specified frame rectangle.
+    @param frame The frame rectangle for the view, measured in points.
+    @return An initialized Metal view object.
+    */
     override init(frame: CGRect) {
         mathUtils = MathUtils()
         super.init(frame: frame)
         commonInit()
     }
     
+    /*
+     @method init(coder:)
+     @abstract Initializes the Metal view from data in a given unarchiver.
+     @param aDecoder An unarchiver object.
+     @return An initialized Metal view object, or nil if the object could not be unarchived.
+     */
     required init?(coder aDecoder: NSCoder) {
         mathUtils = MathUtils()
         super.init(coder: aDecoder)
         commonInit()
     }
     
+    /*
+     @method commonInit
+     @abstract Initializes Metal-related components.
+    */
     private func commonInit() {
-        buildDevice()
-        buildVertexBuffer()
-        buildPipeline()
+        setupDevice()
+        setupVertexBuffers()
+        setupPipeline()
         self.texture = self.loadTexture(imageName: "surgery.jpg")
-        buildSamplerState()
+        setupSamplerState()
     }
     
+    /*
+     @method didMoveToSuperview
+     @abstract Notifies the view that it was added to a superview.
+     */
     override func didMoveToSuperview() {
         super.didMoveToSuperview()
         if superview != nil {
@@ -90,7 +114,11 @@ class MetalView: UIView {
         }
     }
     
-    private func buildDevice() {
+    /*
+     @method setupDevice
+     @abstract Sets up Metal device.
+    */
+    private func setupDevice() {
         device = MTLCreateSystemDefaultDevice()
         metalLayer = layer as? CAMetalLayer
         metalLayer.device = device
@@ -98,7 +126,11 @@ class MetalView: UIView {
         metalLayer.contentsScale = UIScreen.main.scale
     }
     
-    private func buildPipeline() {
+    /*
+     @method setupPipeline
+     @abstract Setup the rendering pipeline.
+    */
+    private func setupPipeline() {
         guard let library = device.makeDefaultLibrary(),
               let vertexFunc = library.makeFunction(name: "vertex_main"),
               let fragmentFunc = library.makeFunction(name: "fragment_main") else {
@@ -135,17 +167,30 @@ class MetalView: UIView {
         commandQueue = device.makeCommandQueue()
     }
     
-    private func buildVertexBuffer() {
+    /*
+     @method setupVertexBuffers
+     @abstract Setup vertex and index buffers.
+    */
+    private func setupVertexBuffers() {
         self.vertexBuffer = device.makeBuffer(bytes: vertices, length: MemoryLayout<Vertex>.stride * vertices.count, options: [])
         self.indexBuffer = device.makeBuffer(bytes: indices, length: MemoryLayout<UInt16>.stride * indices.count, options: [])
     }
     
+    /*
+     @method displayLinkDidFire:
+     @abstract Responds to the display link firing.
+     @param displayLink The CADisplayLink object associated with the event.
+    */
     @objc private func displayLinkDidFire(_ displayLink: CADisplayLink) {
         rotationAngle += 0.01
         redraw()
     }
     
-    private func buildMVPBuffer() {
+    /*
+     @method setupMVPBuffers
+     @abstract Setup the uniform MVP buffer.
+    */
+    private func setupMVPBuffer() {
         let aspectRatio = Float(bounds.width / bounds.height)
         let projectionMatrix = mathUtils.matrix_float4x4_perspective(fovyRadians: mathUtils.radians_from_degrees(45.0), aspectRatio: aspectRatio, nearZ: 0.1, farZ: 1000.0)
         let viewMatrix = mathUtils.matrix_float4x4_translation(0.0, 0.0, -20.0)
@@ -156,6 +201,10 @@ class MetalView: UIView {
         self.mvpBuffer = device.makeBuffer(bytes: [mvpMatrix], length: mvpBufferSize, options: [])
     }
     
+    /*
+     @method loadTexture
+     @abstract Loads textures from image names in the filesystem.
+    */
     private func loadTexture(imageName: String) -> MTLTexture? {
         guard let image = UIImage(named: imageName) else {
             return nil
@@ -175,7 +224,11 @@ class MetalView: UIView {
         }
     }
     
-    private func buildSamplerState() {
+    /*
+     @method setupSamplerState
+     @abstract Sets up the texture sampler.
+    */
+    private func setupSamplerState() {
         let samplerDescriptor = MTLSamplerDescriptor()
         samplerDescriptor.minFilter = .linear
         samplerDescriptor.magFilter = .linear
@@ -186,7 +239,11 @@ class MetalView: UIView {
         samplerState = device.makeSamplerState(descriptor: samplerDescriptor)
     }
     
-    private func makeDepthTexture() {
+    /*
+     @method setupDepthTexture
+     @abstract Sets up the depth texture.
+    */
+    private func setupDepthTexture() {
         let drawableSize = metalLayer.drawableSize
 
         guard depthTexture == nil else {
@@ -204,21 +261,22 @@ class MetalView: UIView {
         self.depthTexture = device.makeTexture(descriptor: depthTextureDescriptor)
     }
 
-
-
+    /*
+     @method redraw
+     @abstract Redraws the Metal content.
+    */
     private func redraw() {
         guard let drawable = metalLayer.nextDrawable() else {
             return
         }
         
-        buildMVPBuffer()
-        
+        setupMVPBuffer()
         let renderPass = MTLRenderPassDescriptor()
         renderPass.colorAttachments[0].texture = drawable.texture
         renderPass.colorAttachments[0].clearColor = MTLClearColorMake(0.0, 0.0, 0.0, 1)
         renderPass.colorAttachments[0].storeAction = .store
         renderPass.colorAttachments[0].loadAction = .clear
-        self.makeDepthTexture()
+        self.setupDepthTexture()
         renderPass.depthAttachment.texture = depthTexture
         renderPass.depthAttachment.clearDepth = 1.0
         renderPass.depthAttachment.loadAction = .clear
