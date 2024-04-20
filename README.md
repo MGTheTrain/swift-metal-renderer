@@ -1,7 +1,5 @@
 # swift-metal-renderer
 
-![Status](https://img.shields.io/badge/Status-On%20Hold-orange)
-
 ## Table of Contents
 
 + [Summary](#summary)
