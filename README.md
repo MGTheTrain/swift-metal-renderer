@@ -8,8 +8,7 @@
 
 ## Summary
 
-iOS based Swift Metal API renderer
-
+iOS and macOS based Swift Metal API renderer
 
 ## Features
 
