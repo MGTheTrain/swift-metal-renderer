@@ -7,6 +7,7 @@
 + [Summary](#summary)
 + [Features](#features)
 + [Getting started](#getting-started)
++ [Results](#results)
 
 ## Summary
 
@@ -26,5 +27,25 @@ iOS and macOS based Swift Metal API renderer
 - [ ] Native file dialog support for loading new glTF or USD scenes
 
 ## Getting started
+
+### Preconditions
+
+- MacOS device with XCode version >=15.3
+- Use the iPhone simulator in Xcode, or optionally a real device. Tested on an iOS 17.4 device
+
+### Steps
+
+Launch one of the [sample applications](./apps/) in Xcode. 
+You can choose to use either the iPhone simulator in Xcode or an iOS device running version 17.4 or higher. If opting for a real device, connect it to your macOS device. Then build and run the applications on the specified iOS device or iPhone simulator.
+
+## Results
+
+Results for the [Triangle application](./apps/Triangle/) should resemble:
+
+<img src="./images/Triangle.png" alt="Triangle" width="300"/>
+
+Results for the [RotatingTexturedCube application](./apps/RotatingTexturedCube/) should resemble:
+
+<img src="./images/RotatingTexturedCube.png" alt="RotatingTexturedCube" width="300"/>
 
 TBD
